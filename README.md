@@ -10,7 +10,7 @@
   - [Arquitectura vs Desarrollo: Diferencias Clave](#arquitectura-vs-desarrollo-diferencias-clave)
   - [Roles y Responsabilidades](#roles-y-responsabilidades)
 
-- [Principios SOLID](#principios-solid)
+- [Principios SOLID y separación de responsabilidades](#principios-solid-y-separación-de-responsabilidades)
   - [Principio de Responsabilidad Única (SRP)](#principio-de-responsabilidad-única-srp)
   - [Principio Abierto-Cerrado (OCP)](#principio-abierto-cerrado-ocp)
   - [Principio de Sustitución de Liskov (LSP)](#principio-de-sustitución-de-liskov-lsp)
@@ -18,7 +18,7 @@
   - [Principio de Inversión de Dependencias (DIP)](#principio-de-inversión-de-dependencias-dip)
   - [Resumen de SOLID](#resumen-de-solid)
 
-- [Estilos Arquitectónicos](#estilos-arquitectónicos)
+- [Estilos Arquitectónicos clásicos](#estilos-arquitectónicos-clásicos)
   - [Monolito](#monolito)
   - [Cliente-Servidor](#cliente-servidor)
   - [Multicapa](#multicapa)
@@ -26,7 +26,7 @@
   - [Microkernel](#microkernel)
   - [Comparativa de Estilos](#comparativa-de-estilos)
 
-- [Estilos de despliegue](#estilos-de-despliegue)
+- [Estilos Arquitectónicos modernos](#estilos-de-despliegue-e-infraestructura)
   - [Microservicios](#microservicios)
   - [Serverless](#serverless)
   - [Comparativa Microservicios vs Serverless](#comparativa-microservicios-vs-serverless)
@@ -117,7 +117,7 @@ La arquitectura establece la estructura general y las decisiones de Desarrollo d
 - Se enfoca en la calidad del código
 
 
-## Principios SOLID 
+## Principios SOLID y separación de responsabilidades
 
 ### Principio de Responsabilidad Única (SRP) 
 
@@ -316,7 +316,7 @@ class UserRepository:
 
 ![Resumen de SOLID](Assets/ArquitecturaDeSoftware2.png)
 
-## Estilos Arquitectónicos
+## Estilos Arquitectónicos Clásicos
 
 ![Resumen estilos arquitectonicos](Assets/ArquitecturaDeSoftware3.png)
 
@@ -422,7 +422,7 @@ Core mínimo con funcionalidades básicas, ampliable con plug-ins independientes
 - MVC → perfecto para aplicaciones orientadas a UI
 - Microkernel → cuando quieras flexibilidad máxima y extensibilidad
 
-## Estilos de despliegue
+## Estilos Arquitectónicos Modernos
 
 ### Microservicios
 
