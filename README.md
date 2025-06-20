@@ -31,6 +31,14 @@
   - [Serverless](#serverless)
   - [Comparativa Microservicios vs Serverless](#comparativa-microservicios-vs-serverless)
 
+- [Principios de Diseño de Sistemas Escalables](#principios-de-diseño-de-sistemas-escalables)
+  - [Cohesión](#cohesión)
+  - [Acoplamiento](#acoplamiento)
+  - [DRY (Don't Repeat Yourself)](#dry-dont-repeat-yourself)
+  - [KISS (Keep It Simple, Stupid)](#kiss-keep-it-simple-stupid)
+  - [YAGNI (You Aren't Gonna Need It)](#yagni-you-arent-gonna-need-it)
+  - [Relación entre Principios](#relación-entre-principios)
+
 ---
 
 ## Introducción a la Arquitectura de Software
@@ -498,3 +506,157 @@ Modelo donde ejecutas funciones en la nube sin gestionar servidores. Se activan 
 - En proyectos reales, es común combinar ambos: microservicios gestionan dominio central, mientras funcionalidades auxiliares usan serverless
 
 ![Comparativa Microservicios vs Serverless](Assets/ArquitecturaDeSoftware4.png)
+
+## Principios de Diseño de Sistemas Escalables
+
+### Objetivos
+Comprender los principios fundamentales que permiten que el diseño de software:
+- Sea más fácil de mantener
+- Escale sin romperse
+- Sea claro para otros desarrolladores
+- Evite duplicaciones y sobreingeniería
+
+### Cohesión
+
+#### Definición
+La cohesión mide qué tan relacionadas están las responsabilidades de un módulo, clase o función.
+
+#### Buena cohesión
+- Cada módulo tiene una única responsabilidad bien definida
+- Es más fácil de entender, mantener y probar
+
+#### Ejemplo en JavaScript (buena cohesión)
+```javascript
+// Solo se encarga del manejo de usuarios
+class UserService {
+  createUser(data) { /* ... */ }
+  deleteUser(id) { /* ... */ }
+}
+```
+
+#### Mala cohesión
+```javascript
+class UtilityService {
+  sendEmail() { /* ... */ }
+  generatePDF() { /* ... */ }
+  validateUser() { /* ... */ }
+}
+```
+Este módulo hace muchas cosas distintas: baja cohesión.
+
+### Acoplamiento
+
+#### Definición
+El acoplamiento es el grado de dependencia entre módulos del sistema.
+
+#### Bajo acoplamiento
+- Un módulo puede cambiar sin romper otros
+- Ideal cuando el sistema crece o se modifica frecuentemente
+
+#### Ejemplo de bajo acoplamiento
+```javascript
+// Autenticación independiente del controlador
+class AuthService {
+  login() { /* ... */ }
+}
+
+class LoginController {
+  constructor(authService) {
+    this.authService = authService;
+  }
+}
+```
+Inyectar dependencias baja el acoplamiento.
+
+#### Alto acoplamiento
+```javascript
+class LoginController {
+  login() {
+    const authService = new AuthService(); // tightly coupled
+    authService.login();
+  }
+}
+```
+No se puede cambiar AuthService sin tocar LoginController.
+
+### DRY (Don't Repeat Yourself)
+
+#### Definición
+Evita repetir lógica o estructuras en distintos lugares del código.
+
+#### Aplicación
+- Extraer funciones reutilizables
+- Usar constantes, helpers, o servicios
+
+#### Ejemplo
+```javascript
+// MAL: lógica repetida
+if (user.age >= 18) { ... }
+if (client.age >= 18) { ... }
+
+// BIEN: extraemos lógica
+function isAdult(person) {
+  return person.age >= 18;
+}
+```
+
+### KISS (Keep It Simple, Stupid)
+
+#### Definición
+La solución más simple que funcione es mejor que una compleja que no aporta valor.
+
+#### Aplicación
+- No sobrecomplicar el diseño
+- Preferir código directo y legible
+
+#### Ejemplo
+```javascript
+// MAL: sobreingeniería
+function sum(a, b) {
+  const result = a + b;
+  return Number(result.toFixed(0));
+}
+
+// BIEN: directo
+function sum(a, b) {
+  return a + b;
+}
+```
+
+### YAGNI (You Aren't Gonna Need It)
+
+#### Definición
+No desarrolles funcionalidades que aún no necesitas.
+
+#### Aplicación
+- No agregar lógica por "si acaso"
+- Esperar a que el requerimiento exista realmente
+
+#### Ejemplo
+```javascript
+// MAL
+function connectToDatabase(type) {
+  if (type === 'Mongo') { /*...*/ }
+  else if (type === 'Postgres') { /*...*/ }
+  else if (type === 'Oracle') { /*...*/ }
+}
+
+// BIEN: hoy solo usamos Mongo
+function connectToMongoDB() { /*...*/ }
+```
+
+### Relación entre Principios
+
+| Principio | Ayuda a... |
+|-----------|------------|
+| Cohesión | Que cada módulo tenga una función clara |
+| Acoplamiento | Que el sistema crezca sin romper otras partes |
+| DRY | Mantener el código consistente y fácil de modificar |
+| KISS | Evitar complejidad innecesaria |
+| YAGNI | Priorizar lo que realmente se necesita ahora |
+
+#### Por qué son claves para la escalabilidad
+- Escalabilidad no solo es performance: también es escalabilidad del equipo, del código y de la arquitectura
+- Estos principios reducen el riesgo técnico a largo plazo
+- Ayudan a que múltiples desarrolladores trabajen en paralelo sin caos
+
