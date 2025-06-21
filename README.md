@@ -660,3 +660,4 @@ function connectToMongoDB() { /*...*/ }
 - Estos principios reducen el riesgo técnico a largo plazo
 - Ayudan a que múltiples desarrolladores trabajen en paralelo sin caos
 
+![Principios de Diseño de Sistemas Escalables](Assets/ArquitecturaDeSoftware5.png)
