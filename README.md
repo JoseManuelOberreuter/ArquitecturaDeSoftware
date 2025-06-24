@@ -39,6 +39,16 @@
   - [YAGNI (You Aren't Gonna Need It)](#yagni-you-arent-gonna-need-it)
   - [Relación entre Principios](#relación-entre-principios)
 
+- [Diagramas de arquitectura (Modelo C4)](#diagramas-de-arquitectura-modelo-c4)
+  - [¿Qué es el Modelo C4?](#qué-es-el-modelo-c4)
+  - [Visión general del modelo](#visión-general-del-modelo)
+  - [Nivel 1: Diagrama de Contexto](#nivel-1-diagrama-de-contexto)
+  - [Nivel 2: Diagrama de Contenedores](#nivel-2-diagrama-de-contenedores)
+  - [Nivel 3: Diagrama de Componentes](#nivel-3-diagrama-de-componentes)
+  - [Nivel 4: Diagrama de Código](#nivel-4-diagrama-de-código)
+  - [Herramientas para crear diagramas C4](#herramientas-para-crear-diagramas-c4)
+  - [¿Por qué usar C4?](#por-qué-usar-c4)
+
 ---
 
 ## Introducción a la Arquitectura de Software
@@ -661,3 +671,116 @@ function connectToMongoDB() { /*...*/ }
 - Ayudan a que múltiples desarrolladores trabajen en paralelo sin caos
 
 ![Principios de Diseño de Sistemas Escalables](Assets/ArquitecturaDeSoftware5.png)
+
+## Diagramas de arquitectura (Modelo C4)
+
+C4 es un estándar moderno, claro y jerárquico para comunicar cómo está organizado un sistema de software. Te enseña a visualizar desde lo más general (el sistema) hasta el nivel del código.
+
+### ¿Qué es el Modelo C4?
+El modelo C4 significa:
+
+C: Contexto
+
+C: Contenedores
+
+C: Componentes
+
+C: Código
+
+Desarrollado por Simon Brown, busca resolver este problema común:
+
+"Los diagramas de arquitectura son confusos, inconsistentes o directamente inútiles."
+
+C4 propone una jerarquía clara de 4 niveles visuales, cada uno con un propósito específico.
+
+### Visión general del modelo
+| Nivel | Qué muestra | Para quién es útil |
+|-------|-------------|-------------------|
+| Nivel 1 – Contexto | Cómo el sistema interactúa con su entorno | Negocio, stakeholders |
+| Nivel 2 – Contenedor | Qué partes principales forman el sistema | DevOps, arquitectos |
+| Nivel 3 – Componente | Cómo se organiza internamente un contenedor | Desarrolladores |
+| Nivel 4 – Código | Estructura del código fuente | Desarrolladores (detalle) |
+
+### Nivel 1: Diagrama de Contexto
+**Objetivo**
+Mostrar el sistema como una caja negra, sus usuarios y otros sistemas que lo rodean.
+
+**Ejemplo:**
+"Sistema de gestión de alumnos" se conecta con:
+
+- Usuario (Secretaria)
+- Sistema de pagos externo
+- Plataforma de matrículas del ministerio
+
+**Representación:**
+```
++-----------------------------+
+|       Sistema Principal     |
+|-----------------------------|
+|  - Gestiona alumnos         |
++-------------+--------------+
+              ↑
+   Usuario: Secretaria
+              ↓
+ Sistema de Pagos (externo)
+```
+Este diagrama no entra en detalles técnicos. Solo muestra el ecosistema.
+
+### Nivel 2: Diagrama de Contenedores
+**Objetivo**
+Mostrar las partes ejecutables principales del sistema (web app, backend, base de datos, microservicios, etc).
+
+**Ejemplo:**
+El sistema tiene:
+- Web App (Vue)
+- API backend (Node.js)
+- Base de datos (PostgreSQL)
+- Servicio de envío de correos
+
+**Representación:**
+```
+[Sistema de Gestión de Alumnos]
+ ├── Web App (Vue)
+ ├── API REST (Node.js)
+ ├── Base de datos (PostgreSQL)
+ └── Servicio de email (SMTP)
+```
+Cada contenedor representa algo que corre, como una app o servicio.
+
+### Nivel 3: Diagrama de Componentes
+**Objetivo**
+Mostrar cómo se organiza internamente un contenedor.
+
+**Ejemplo:**
+Dentro del backend (Node.js) hay:
+- Controlador de alumnos
+- Servicio de matrícula
+- Módulo de autenticación
+
+**Representación:**
+```
+[Contenedor: API Node.js]
+ ├── Componente: AuthService
+ ├── Componente: AlumnosController
+ └── Componente: MatriculaService
+```
+Aquí decides si tus componentes siguen MVC, DDD, CQRS, etc.
+
+### Nivel 4: Diagrama de Código
+**Objetivo**
+Mostrar el diseño interno de un componente, como clases, métodos, módulos, etc.
+
+**Consejo:**
+Este nivel es opcional y útil en documentación interna o onboarding. También puede generarse automáticamente con herramientas como PlantUML, Structurizr o VSCode extensions.
+
+### Herramientas para crear diagramas C4
+- draw.io o diagrams.net – visual y simple
+- Structurizr – la oficial de Simon Brown
+- PlantUML + C4 extension – para código versionado
+- Lucidchart, Whimsical, Figma – si ya los usas
+
+### ¿Por qué usar C4?
+- Permite claridad en la comunicación.
+- Sirve a distintos públicos: cliente, PM, devs, ops.
+- Facilita documentación viva.
+- Escala bien en proyectos complejos.
